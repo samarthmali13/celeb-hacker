@@ -6,7 +6,7 @@ import json from "./Components/celebrities.json";
 function App() {
   const [count, setCount] = useState(0);
   const [celebData, setCelebData] = useState(json);
-  const [editState, setEditState] = useState(false);
+  const [editState, setEditState] = useState(null);
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
     const currentDate = new Date();
@@ -29,15 +29,24 @@ function App() {
     setCelebData(updatedData);
     // alert(`delete ${id}`)
   };
-  const editItem = () => {
+  const editItem = (id) => {
     // alert("Edit");
-    setEditState(true);
+    setEditState(id);
   };
 
   const saveEdit = () => {};
   const cancelEdit = () => {
-    setEditState(false);
+    setEditState(null);
   };
+  const handleCountryChange =(e , id) => {
+    const updatedData = jsonData.map(item => {
+      if (item.id === id) {
+        return { ...item, name: e.target.value }; // Update the name property
+      }
+      return item;
+    });
+    setCelebData(updatedData);
+  }
   useEffect(() => {
     const removeDefaultOpenState = () => {
       const accordionItems = document.querySelectorAll(".accordion-item");
@@ -80,7 +89,7 @@ function App() {
                           className="mx-2"
                         />
                       </div>
-                      {editState === false ? (
+                      {editState !== data.id? (
                         <div>
                           {data.first} {data.last}
                         </div>
@@ -99,7 +108,7 @@ function App() {
                     <div className="row">
                       <div className="col">
                         <div>Age</div>
-                        {editState === false ? (
+                        {editState !== data.id? (
                           <div>{calculateAge(data.dob)} Years</div>
                         ) : (
                           <div>
@@ -109,7 +118,7 @@ function App() {
                       </div>
                       <div className="col">
                         <div>Gender</div>
-                        {editState === false ? (
+                        {editState !== data.id? (
                           <div>{data.gender}</div>
                         ) : (
                           <div>
@@ -123,11 +132,14 @@ function App() {
                       </div>
                       <div className="col">
                         <div>Country</div>
-                        {editState === false ? (
+                        {editState !== data.id? (
                           <div>{data.country}</div>
                         ) : (
                           <div>
-                            <input type="text" />
+                            <input type="text" 
+                            value={data.country}
+                            onChange={(e)=> handleCountryChange(e , data.id)}
+                            />
                           </div>
                         )}
                       </div>
@@ -135,7 +147,7 @@ function App() {
                     <div className="row">
                       <div>Description</div>
                       {
-                        editState === false ? (
+                        editState !== data.id ? (
                           <div>{data.description}</div>
                         ) : (
                           // <div>
@@ -145,7 +157,7 @@ function App() {
                       }
                     </div>
                     {/* <div className="d-flex"> */}
-                    {editState === false ? (
+                    {editState !== data.id? (
                       <div className="d-flex">
                         <div
                           className="mx-2"
@@ -154,7 +166,7 @@ function App() {
                           <i className="bi bi-trash"></i>
                         </div>
                         <div className="mx-2">
-                          <i className="bi bi-pencil" onClick={editItem}></i>
+                          <i className="bi bi-pencil" onClick={()=>editItem(data.id)}></i>
                         </div>
                       </div>
                     ) : (

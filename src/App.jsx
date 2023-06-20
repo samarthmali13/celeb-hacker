@@ -22,6 +22,14 @@ function App() {
 
     return age;
   };
+  const deleteItem = () => {
+    alert('delete')
+  }
+  const editItem = () => {
+    alert('Edit')
+  }
+  
+
   useEffect(() => {
     const removeDefaultOpenState = () => {
       const accordionItems = document.querySelectorAll('.accordion-item');
@@ -39,52 +47,60 @@ function App() {
     <>
       <div className='container w-75'>
         {/* <div className='row'> */}
-          <div className="accordion" id="accordionExample">
-            {
-              celebData.map((data, index) => {
-                return (
-                  <div className="accordion-item">
-                    <h2 className="accordion-header">
-                      <div className="accordion-button collapsed" type="button" data-bs-toggle={`collapse`} data-bs-target={`#collapse${index}`} aria-expanded="true" aria-controls={`collapse${index}`}>
-                        <img src={data.picture} width={50} height={50} className='mx-2' />
-                        {data.first} {data.last}
-                      </div>
-                    </h2>
-                    <div id={`collapse${index}`} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                      <div className="accordion-body">
-                        <div className='row'>
-                          <div className="col">
+        <div className="accordion" id="accordionExample">
+          {
+            celebData.map((data, index) => {
+              return (
+                <div className="accordion-item">
+                  <h2 className="accordion-header">
+                    <div className="accordion-button collapsed" type="button" data-bs-toggle={`collapse`} data-bs-target={`#collapse${index}`} aria-expanded="true" aria-controls={`collapse${index}`}>
+                      <img src={data.picture} width={50} height={50} className='mx-2' />
+                      {data.first} {data.last}
+                    </div>
+                  </h2>
+                  <div id={`collapse${index}`} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div className="accordion-body">
+                      <div className='row'>
+                        <div className="col">
 
-                            <div>Age</div>
-                            <div>{calculateAge(data.dob)} Years</div>
-                          </div>
-                          <div className="col">
-
-                            <div>Gender</div>
-                            <div>{data.gender}</div>
-                          </div>
-                          <div className="col">
-                            <div>Country</div>
-                            <div>{data.country}</div>
-                          </div>
+                          <div>Age</div>
+                          <div>{calculateAge(data.dob)} Years</div>
                         </div>
-                        <div className='row'>
-                          <div>
-                            Description
-                          </div>
-                          <div>
-                            {data.description}
-                          </div>
+                        <div className="col">
+
+                          <div>Gender</div>
+                          <div>{data.gender}</div>
+                        </div>
+                        <div className="col">
+                          <div>Country</div>
+                          <div>{data.country}</div>
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <div>
+                          Description
+                        </div>
+                        <div>
+                          {data.description}
+                        </div>
+                      </div>
+                      <div className="d-flex">
+                        <div className='mx-2' onClick={deleteItem}>
+                          <i className="bi bi-trash"></i>
+                        </div>
+                        <div className='mx-2'>
+                          <i className="bi bi-pencil" onClick={editItem}></i>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                )
-              })
-            }
-          </div>
+              )
+            })
+          }
         </div>
+      </div>
       {/* </div> */}
     </>
   )

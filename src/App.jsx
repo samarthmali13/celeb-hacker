@@ -7,7 +7,7 @@ function App() {
   const [celebData, setCelebData] = useState(json);
   const [editState, setEditState] = useState(null);
   const [editData, setEditData] = useState({})
-  const [filterData , setFilterData] = useState(json)
+  const [filterData, setFilterData] = useState(json)
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
     const currentDate = new Date();
@@ -96,8 +96,8 @@ function App() {
   const setSearchValue = (searchValue) => {
     const searchResult = celebData.filter((data) => {
       return (
-        data.first.toLowerCase().includes(searchValue) ||
-        data.last.includes(searchValue) 
+        data.first.toLowerCase().includes(searchValue.toLowerCase()) ||
+        data.last.toLowerCase().includes(searchValue.toLowerCase())
       );
     });
     setFilterData(searchResult);
@@ -118,13 +118,13 @@ function App() {
   return (
     <>
 
-      
+
 
       <div className="container ">
         <div className="d-flex my-2">
           <div className="form-inline d-flex">
             <div className="">
-              <input className="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search" aria-label="Search"  onChange={(e) => setSearchValue(e.target.value)} />
+              <input className="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" onChange={(e) => setSearchValue(e.target.value)} />
             </div>
           </div>
 
@@ -241,21 +241,21 @@ function App() {
                       <div className="d-flex my-2">
                         <div
                           className="mx-2"
-                          
+
                           data-bs-toggle="modal" data-bs-target="#exampleModal"
                         >
-                          <i className="bi bi-trash" style={{color:'red'}}></i>
+                          <i className="bi bi-trash" style={{ color: 'red' }}></i>
                         </div>
                         <div className="mx-2">
-                          <i className="bi bi-pencil" onClick={() => editItem(data)} style={{color:'blue'}}></i>
+                          <i className="bi bi-pencil" onClick={() => editItem(data)} style={{ color: 'blue' }}></i>
                         </div>
                       </div>
                     ) : (
                       <div className="d-flex my-2">
-                        <div className="mx-2 "onClick={cancelEdit}>
-                          <i className="bi bi-x-circle" style={{color:'red'}}></i>
+                        <div className="mx-2 " onClick={cancelEdit}>
+                          <i className="bi bi-x-circle" style={{ color: 'red' }}></i>
                         </div>
-                        <div className="mx-2" onClick={saveEdit} style={{color:'green'}}>
+                        <div className="mx-2" onClick={saveEdit} style={{ color: 'green' }}>
                           <i className="bi bi-check-circle"></i>
                         </div>
                       </div>
@@ -263,31 +263,31 @@ function App() {
                     {/* </div> */}
                   </div>
                 </div>
-                 {/* Modal */}
-  <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="exampleModalLabel">Are you Sure you want to delete</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-        </div>
-  
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" className="btn btn-primary"  data-bs-dismiss="modal" onClick={() => deleteItem(data.id)}>Delete</button>
-        </div>
-      </div>
-    </div>
-  </div>
+                {/* Modal */}
+                <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">Are you sure you want to delete</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                      </div>
+
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => deleteItem(data.id)}>Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             );
-        
-        })}
+
+          })}
         </div>
         <div>
- 
- 
-</div>
+
+
+        </div>
 
       </div>
 

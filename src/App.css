@@ -23,6 +23,11 @@ label{
   justify-content: space-between;
   cursor: pointer;
 }
+.btn-danger {
+  color: #fff;
+  background-color: #ff3216;
+  border-color: #ff3216;
+}
 .container {
   @media only screen and (min-width: 1024px) {
     max-width: 50%; 

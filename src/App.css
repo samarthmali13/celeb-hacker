@@ -1,3 +1,19 @@
-.accordion-item:not(.collapsed) {
-  flex-basis: 100%;
+.accordion {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.accordion-header {
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.container {
+  @media only screen and (min-width: 1024px) {
+    max-width: 50%; 
+  }
 }

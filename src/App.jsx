@@ -157,7 +157,7 @@ function App() {
                     aria-expanded="true"
                     aria-controls={`collapse${index}`}
                   >
-                    <div className="d-flex">
+                    <div className="header">
                       <div className="rounded">
                         <img
                           src={data.picture}
@@ -167,7 +167,7 @@ function App() {
                         />
                       </div>
                       {editState !== data.id ? (
-                        <div>
+                        <div className="mx-3">
                           {data.first} {data.last}
                         </div>
                       ) : (
@@ -259,18 +259,18 @@ function App() {
                           
                           data-bs-toggle="modal" data-bs-target="#exampleModal"
                         >
-                          <i className="bi bi-trash"></i>
+                          <i className="bi bi-trash" style={{color:'red'}}></i>
                         </div>
                         <div className="mx-2">
-                          <i className="bi bi-pencil" onClick={() => editItem(data)}></i>
+                          <i className="bi bi-pencil" onClick={() => editItem(data)} style={{color:'blue'}}></i>
                         </div>
                       </div>
                     ) : (
                       <div className="d-flex">
                         <div className="mx-2 "onClick={cancelEdit}>
-                          <i className="bi bi-x-circle"></i>
+                          <i className="bi bi-x-circle" style={{color:'red'}}></i>
                         </div>
-                        <div className="mx-2" onClick={saveEdit}>
+                        <div className="mx-2" onClick={saveEdit} style={{color:'green'}}>
                           <i className="bi bi-check-circle"></i>
                         </div>
                       </div>

@@ -4,25 +4,10 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import json from "./Components/celebrities.json";
 function App() {
-  const [count, setCount] = useState(0);
   const [celebData, setCelebData] = useState(json);
   const [editState, setEditState] = useState(null);
   const [editData, setEditData] = useState({})
-  const [showModal, setshowModal] = useState(true)
-  const [showDialog, setShowDialog] = useState(false);
 
-  const handleOpenDialog = () => {
-    setShowDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setShowDialog(false);
-  };
-
-  const handleConfirm = () => {
-    // Handle delete action here
-    handleCloseDialog();
-  };
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
     const currentDate = new Date();
@@ -194,7 +179,7 @@ function App() {
                         ) : (
                           <div>
                             <input type="date"
-                              name="date"
+                              name="dob"
                               value={editData.dob}
                               onChange={handleInputChange}
                             />

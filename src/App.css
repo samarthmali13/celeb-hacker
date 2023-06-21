@@ -11,7 +11,10 @@ input , textarea , select{
 .header{
   display: flex;
   align-items: center;
-  
+
+}
+label{
+  color: gray;  
 }
 .accordion-header {
   display: flex;

@@ -7,7 +7,7 @@ function App() {
   const [celebData, setCelebData] = useState(json);
   const [editState, setEditState] = useState(null);
   const [editData, setEditData] = useState({})
-
+  const [filterData , setFilterData] = useState(json)
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
     const currentDate = new Date();
@@ -100,7 +100,7 @@ function App() {
         data.last.includes(searchValue) 
       );
     });
-    setCelebData(searchResult);
+    setFilterData(searchResult);
   };
   useEffect(() => {
     const removeDefaultOpenState = () => {
@@ -130,7 +130,7 @@ function App() {
 
         </div>
         <div className="accordion object-fit-contain my-2" id="accordionExample">
-          {celebData.map((data, index) => {
+          {filterData?.map((data, index) => {
             return (
               <div className="accordion-item">
                 <h2 className="accordion-header">
@@ -173,7 +173,7 @@ function App() {
                   <div className="accordion-body">
                     <div className="row">
                       <div className="col">
-                        <div>Age</div>
+                        <div><label>Age:</label></div>
                         {editState !== data.id ? (
                           <div>{calculateAge(data.dob)} Years</div>
                         ) : (
@@ -187,7 +187,7 @@ function App() {
                         )}
                       </div>
                       <div className="col">
-                        <div>Gender</div>
+                        <div><label>Gender:</label></div>
                         {editState !== data.id ? (
                           <div>{data.gender}</div>
                         ) : (
@@ -205,7 +205,7 @@ function App() {
                         )}
                       </div>
                       <div className="col">
-                        <div>Country</div>
+                        <div><label>Country:</label></div>
                         {editState !== data.id ? (
                           <div>{data.country}</div>
                         ) : (
@@ -221,7 +221,7 @@ function App() {
                       </div>
                     </div>
                     <div className="row">
-                      <div>Description</div>
+                      <div><label>Description:</label></div>
                       {
                         editState !== data.id ? (
                           <div>{data.description}</div>
@@ -238,7 +238,7 @@ function App() {
                     </div>
                     {/* <div className="d-flex"> */}
                     {editState !== data.id ? (
-                      <div className="d-flex">
+                      <div className="d-flex my-2">
                         <div
                           className="mx-2"
                           
@@ -251,7 +251,7 @@ function App() {
                         </div>
                       </div>
                     ) : (
-                      <div className="d-flex">
+                      <div className="d-flex my-2">
                         <div className="mx-2 "onClick={cancelEdit}>
                           <i className="bi bi-x-circle" style={{color:'red'}}></i>
                         </div>

@@ -6,7 +6,7 @@ import json from "./Components/celebrities.json";
 function App() {
   const [celebData, setCelebData] = useState(json);
   const [editState, setEditState] = useState(null);
-  const [editData, setEditData] = useState({})
+  const [editData, setEditData] = useState(null)
   const [filterData, setFilterData] = useState(json)
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
@@ -61,6 +61,7 @@ function App() {
   };
   const cancelEdit = () => {
     setEditState(null);
+    setEditData(null)
   };
 
   const handleInputChange = (e) => {
@@ -116,7 +117,7 @@ function App() {
     };
 
     removeDefaultOpenState();
-  }, []);
+  }, [filterData]);
   return (
     <>
 
@@ -140,7 +141,7 @@ function App() {
                   <div
                     className="accordion-button collapsed"
                     type="button"
-                    data-bs-toggle={`collapse`}
+                    data-bs-toggle={editData === null ?  `collapse` :''}
                     data-bs-target={`#collapse${index}`}
                     aria-expanded="true"
                     aria-controls={`collapse${index}`}

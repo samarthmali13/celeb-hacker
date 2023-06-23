@@ -120,7 +120,7 @@ function App() {
     };
 
     removeDefaultOpenState();
-  }, [setSearchValue]);
+  }, [filterData]);
   useEffect(() => {
     const addcollapsedOnDelete = () =>{
       const accordionItems = document.querySelectorAll(".accordion-item");
@@ -133,7 +133,7 @@ function App() {
       });
     }
     addcollapsedOnDelete();
-  }, [deleteItem])
+  }, [filterData])
   
   return (
     <>

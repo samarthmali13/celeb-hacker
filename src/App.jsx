@@ -57,7 +57,7 @@ function App() {
     setCelebData(updatedData)
     setFilterData(updatedData)
     setEditState(null);
-
+    setEditData(null)
   };
   const cancelEdit = () => {
     setEditState(null);

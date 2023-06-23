@@ -25,7 +25,8 @@ function App() {
     return age;
   };
   const deleteItem = (id) => {
-    const updatedData = celebData.filter((item) => item.id !== id);
+    console.log(id)
+    const updatedData = filterData.filter((item) => item.id !== id);
     setCelebData(updatedData)
     setFilterData(updatedData)
 

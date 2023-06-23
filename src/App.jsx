@@ -25,10 +25,15 @@ function App() {
     return age;
   };
   const deleteItem = (id) => {
-    console.log(id)
+    // console.log(data)
     const updatedData = filterData.filter((item) => item.id !== id);
-    setCelebData(updatedData)
-    setFilterData(updatedData)
+    console.log(updatedData)
+    const result = window.confirm("Are you sure you want to Delete ?")
+    if (result) {
+      setCelebData(updatedData)
+      setFilterData(updatedData)
+      
+    } 
 
     // alert(`delete ${id}`)
   };
@@ -175,12 +180,14 @@ function App() {
                       </div>
                     </div>
                   </h2>
+                 
                   <div
                     id={`collapse${index}`}
                     className="accordion-collapse collapse show"
                     data-bs-parent="#accordionExample"
                   >
                     <div className="accordion-body">
+                      
                       <div className="row">
                         <div className="col">
                           <div>
@@ -268,8 +275,7 @@ function App() {
                         <div className="d-flex my-2">
                           <div
                             className="mx-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
+                           onClick={()=>deleteItem(data.id)}
                           >
                             <i
                               className="bi bi-trash pointer"
@@ -302,53 +308,10 @@ function App() {
                         </div>
                       )}
                       {/* </div> */}
+                      
                     </div>
                   </div>
-                  {/* Modal */}
-                  <div
-                    className="modal fade"
-                    id="exampleModal"
-                    tabIndex={-1}
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h1
-                            className="modal-title fs-5"
-                            id="exampleModalLabel"
-                          >
-                            Are you sure you want to delete
-                          </h1>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          />
-                        </div>
-
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            className="btn btn-light"
-                            data-bs-dismiss="modal"
-                          >
-                            Close
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            data-bs-dismiss="modal"
-                            onClick={() => deleteItem(data.id)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                 
                 </form>
               </div>
             );

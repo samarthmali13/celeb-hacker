@@ -120,7 +120,21 @@ function App() {
     };
 
     removeDefaultOpenState();
-  }, [filterData]);
+  }, [setSearchValue]);
+  useEffect(() => {
+    const addcollapsedOnDelete = () =>{
+      const accordionItems = document.querySelectorAll(".accordion-item");
+      accordionItems.forEach((item) => {
+        const collapseElement = item.querySelector(".accordion-button ");
+        if (!collapseElement.classList.contains("collapsed")) { 
+          collapseElement.classList.add("collapsed");
+        }
+       
+      });
+    }
+    addcollapsedOnDelete();
+  }, [deleteItem])
+  
   return (
     <>
       <div className="container ">
@@ -144,16 +158,16 @@ function App() {
         >
           {filterData?.map((data, index) => {
             return (
-              <div className="accordion-item">
+              <div className="accordion-item" key={index}>
                 <form onSubmit={saveEdit}>
                   <h2 className="accordion-header">
                     <div
                       className="accordion-button collapsed"
                       type="button"
                       data-bs-toggle={editData === null ? `collapse` : ""}
-                      data-bs-target={`#collapse${index}`}
+                      data-bs-target={`#collapse${data.id}`}
                       aria-expanded="true"
-                      aria-controls={`collapse${index}`}
+                      aria-controls={`collapse${data.id}`}
                     >
                       <div className="header">
                         <div className="rounded">
@@ -182,7 +196,7 @@ function App() {
                   </h2>
                  
                   <div
-                    id={`collapse${index}`}
+                    id={`collapse${data.id}`}
                     className="accordion-collapse collapse show"
                     data-bs-parent="#accordionExample"
                   >

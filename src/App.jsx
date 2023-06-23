@@ -54,6 +54,7 @@ function App() {
       return item;
     });
     setCelebData(updatedData)
+    setFilterData(updatedData)
     setEditState(null);
 
   };

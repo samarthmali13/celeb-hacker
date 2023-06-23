@@ -44,7 +44,7 @@ function App() {
         return {
           ...item,
           first: nameArray[0],
-          last: nameArray[nameArray.length - 1],
+          last: nameArray.length<2 ?"": nameArray[nameArray.length - 1],
           dob: editData.dob,
           gender: editData.gender,
           country: editData.country,

@@ -16,9 +16,9 @@ input , textarea{
 input:focus{
   color: #212529;
     background-color: #fff;
-    border-color: #86d2fe;
+    border-color: #86d2fe !important;
     outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(13,197,253,.25);
+    box-shadow: 0 0 0 0.25rem rgba(13,197,253,.25) !important;
 }
 textarea:focus{
   color: #212529;

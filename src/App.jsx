@@ -26,7 +26,8 @@ function App() {
   };
   const deleteItem = (id) => {
     const updatedData = celebData.filter((item) => item.id !== id);
-    setCelebData(updatedData);
+    setCelebData(updatedData)
+    setFilterData(updatedData)
 
     // alert(`delete ${id}`)
   };

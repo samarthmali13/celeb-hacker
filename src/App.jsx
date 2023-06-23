@@ -127,7 +127,9 @@ function App() {
         <div className="d-flex my-2">
           <div className="form-inline d-flex">
             <div className="">
-              <input className="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" onChange={(e) => setSearchValue(e.target.value)} />
+              <input className="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" onChange={(e) => setSearchValue(e.target.value)} 
+                disabled ={editData ? true : false}
+              />
             </div>
           </div>
 

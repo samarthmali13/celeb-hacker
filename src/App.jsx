@@ -35,7 +35,8 @@ function App() {
     setEditData({ ...data, name: data.first + ' ' + data.last })
     setEditState(data.id);
   };
-  const saveEdit = () => {
+  const saveEdit = (e) => {
+    e.preventDefault()
     const fullName = editData.name
     const nameArray = fullName.split(' ');
     const updatedData = celebData.map(item => {
@@ -134,6 +135,7 @@ function App() {
           {filterData?.map((data, index) => {
             return (
               <div className="accordion-item">
+                <form onSubmit={saveEdit}>
                 <h2 className="accordion-header">
                   <div
                     className="accordion-button collapsed"
@@ -161,6 +163,7 @@ function App() {
                           name="fullName"
                           value={editData.name}
                           onChange={handleInputChange}
+                          required
                         />
                       )}
                     </div>
@@ -183,7 +186,8 @@ function App() {
                               name="dob"
                               value={editData.dob}
                               onChange={handleInputChange}
-                            />
+                              required
+                          />
                           </div>
                         )}
                       </div>
@@ -197,7 +201,8 @@ function App() {
                               name="gender"
                               value={editData.gender}
                               onChange={handleInputChange}
-                            >
+                              required
+                          >
                               <option value="male">male</option>
                               <option value="female">female</option>
                               <option value='Prefer not to say'>Prefer not to say</option>
@@ -215,8 +220,9 @@ function App() {
                               name="country"
                               value={editData.country}
                               onChange={handleInputChange}
-                              pattern="/^[^0-9]+$/"
-                            />
+                              pattern="^[^0-9]*$"
+                              required
+                          />
                           </div>
                         )}
                       </div>
@@ -232,7 +238,8 @@ function App() {
                             name="description"
                             value={editData.description}
                             onChange={handleInputChange}
-                          />
+                            required
+                            />
                         )
                         // </div>
                       }
@@ -245,20 +252,20 @@ function App() {
 
                           data-bs-toggle="modal" data-bs-target="#exampleModal"
                         >
-                          <i className="bi bi-trash" style={{ color: 'red' }}></i>
+                          <i className="bi bi-trash pointer" style={{ color: 'red' }}></i>
                         </div>
                         <div className="mx-2">
-                          <i className="bi bi-pencil" onClick={() => editItem(data)} style={{ color: 'blue' }}></i>
+                          <i className="bi bi-pencil pointer" onClick={() => editItem(data)} style={{ color: 'blue' }}></i>
                         </div>
                       </div>
                     ) : (
                       <div className="d-flex my-2">
-                        <div className="mx-2 " onClick={cancelEdit}>
+                        <div className="mx-2 pointer" onClick={cancelEdit}>
                           <i className="bi bi-x-circle" style={{ color: 'red' }}></i>
                         </div>
-                        <div className="mx-2" onClick={saveEdit} style={{ color: 'green' }}>
+                        <button className="mx-2 tick pointer" type='submit' style={{ color: 'green' }}>
                           <i className="bi bi-check-circle"></i>
-                        </div>
+                        </button>
                       </div>
                     )}
                     {/* </div> */}
@@ -280,6 +287,8 @@ function App() {
                     </div>
                   </div>
                 </div>
+                </form>
+                
               </div>
             );
 

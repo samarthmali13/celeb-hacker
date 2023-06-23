@@ -28,6 +28,23 @@ label{
   background-color: #ff3216;
   border-color: #ff3216;
 }
+/* button {
+  background-color: transparent !important;
+  padding: 0 !important; 
+}
+button:hover {
+  border-color: transparent !important;
+} */
+.pointer{
+  cursor: pointer;
+}
+.tick{
+  background-color: transparent !important;
+  padding: 0 !important; 
+}
+.tick:hover{
+  border-color: transparent !important;
+}
 .container {
   @media only screen and (min-width: 1024px) {
     max-width: 50%; 

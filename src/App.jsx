@@ -3,11 +3,22 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import json from "./Components/celebrities.json";
+import { useDispatch, useSelector } from "react-redux";
+import { addBook, fetchBooks, updateBook } from "./redux/actions";
+import ReactPaginate from "react-paginate";
 function App() {
   const [celebData, setCelebData] = useState(json);
   const [editState, setEditState] = useState(null);
   const [editData, setEditData] = useState(null);
   const [filterData, setFilterData] = useState(json);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [editingBook, setEditingBook] = useState(null);
+  const [sortOrder, setSortOrder] = useState('ASC');
+  
+  const dispatch = useDispatch();
+  
+  const books = useSelector((state) => state.books);
+
   const calculateAge = (dob) => {
     const birthDate = new Date(dob);
     const currentDate = new Date();
@@ -28,7 +39,7 @@ function App() {
     // console.log(data)
     const updatedData = filterData.filter((item) => item.id !== id);
     console.log(updatedData)
-    const result = window.confirm("Are you sure you want to Delete ?")
+    const result = window.confirm("Are you sure you want to Add ?")
     if (result) {
       setCelebData(updatedData)
       setFilterData(updatedData)
@@ -39,29 +50,15 @@ function App() {
   };
   const editItem = (data) => {
     // alert("Edit");
-    setEditData({ ...data, name: data.first + " " + data.last });
+    setEditData({ ...data, title: data.title });
     setEditState(data.id);
   };
   const saveEdit = (e) => {
     e.preventDefault();
-    const fullName = editData.name;
-    const nameArray = fullName.split(" ");
-    const updatedData = celebData.map((item) => {
-      if (item.id === editData.id) {
-        return {
-          ...item,
-          first: nameArray[0],
-          last: nameArray.length < 2 ? "" : nameArray[nameArray.length - 1],
-          dob: editData.dob,
-          gender: editData.gender,
-          country: editData.country,
-          description: editData.description,
-        }; // Update the country property
-      }
-      return item;
-    });
-    setCelebData(updatedData);
-    setFilterData(updatedData);
+    dispatch(updateBook(editData));
+    // setEditingBook(null);
+    // setCelebData(updatedData);
+    // setFilterData(updatedData);
     setEditState(null);
     setEditData(null);
   };
@@ -134,7 +131,46 @@ function App() {
     }
     addcollapsedOnDelete();
   }, [filterData])
-  
+
+  useEffect(() => {
+      dispatch(fetchBooks(searchTerm, sortOrder));
+  }, [searchTerm, sortOrder, dispatch]);
+
+  const handleSearch = (e) => {
+      setSearchTerm(e.target.value);
+  };
+
+  const handleSortChange = (order) => {
+      setSortOrder(order);
+  };
+
+  const handleAddBook = (book) => {
+      dispatch(addBook(book));
+  };
+
+  const handleEditBook = (book) => {
+      dispatch(updateBook(book));
+      setEditingBook(null);
+  };
+  const [itemOffset, setItemOffset] = useState(0);
+
+  // Simulate fetching items from another resources.
+  // (This could be items from props; or items loaded in a local state
+  // from an API endpoint with useEffect and useState)
+  const itemsPerPage = 8
+  const endOffset = itemOffset + itemsPerPage;
+  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  const currentItems = books.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(books.length / itemsPerPage);
+
+  // Invoke when user click to request another page.
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % books.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
   return (
     <>
       <div className="container ">
@@ -146,17 +182,20 @@ function App() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                onChange={(e) => setSearchValue(e.target.value)}
+                onChange={handleSearch}
                 disabled={editData ? true : false}
               />
             </div>
+
+            <button className="btn btn-secondary mx-2" onClick={() => handleSortChange('ASC')}>Sort Ascending</button>
+            <button className="btn btn-secondary mx-2" onClick={() => handleSortChange('DESC')}>Sort Descending</button>
           </div>
         </div>
         <div
           className="accordion object-fit-contain my-2"
           id="accordionExample"
         >
-          {filterData?.map((data, index) => {
+          {currentItems?.map((data, index) => {
             return (
               <div className="accordion-item" key={index}>
                 <form onSubmit={saveEdit}>
@@ -170,17 +209,20 @@ function App() {
                       aria-controls={`collapse${data.id}`}
                     >
                       <div className="header">
-                        <div className="rounded">
+                        {/* <div className="rounded">
                           <img
                             src={data.picture}
                             width={50}
                             height={50}
                             className="mx-2 rounded-circle"
                           />
-                        </div>
+                        </div> */}
                         {editState !== data.id ? (
                           <div className="mx-3">
-                            {data.first} {data.last}
+                           <strong className="mx-1">{data.title}</strong>
+                            <span>
+                           By : {data.author}
+                            </span>
                           </div>
                         ) : (
                           <input
@@ -205,95 +247,56 @@ function App() {
                       <div className="row">
                         <div className="col">
                           <div>
-                            <label>Age:</label>
+                            <label>Year Of Release:</label>
                           </div>
-                          {editState !== data.id ? (
-                            <div>{calculateAge(data.dob)} Years</div>
-                          ) : (
-                            <div>
-                              <input
-                                type="date"
-                                name="dob"
-                                value={editData.dob}
-                                onChange={handleInputChange}
-                                required
-                              />
-                            </div>
-                          )}
-                        </div>
-                        <div className="col">
-                          <div>
-                            <label>Gender:</label>
-                          </div>
-                          {editState !== data.id ? (
-                            <div>{data.gender}</div>
-                          ) : (
-                            <div>
-                              <select
-                                name="gender"
-                                value={editData.gender}
-                                onChange={handleInputChange}
-                                required
-                              >
-                                <option value="male">male</option>
-                                <option value="female">female</option>
-                                <option value="Prefer not to say">
-                                  Prefer not to say
-                                </option>
-                              </select>
-                            </div>
-                          )}
+                          
+                            <div>{(data.year)}</div>
+                          
                         </div>
                         <div className="col">
                           <div>
                             <label>Country:</label>
                           </div>
-                          {editState !== data.id ? (
-                            <div>{data.country}</div>
-                          ) : (
-                            <div>
-                              <input
-                                type="text"
-                                name="country"
-                                value={editData.country}
-                                onChange={handleInputChange}
-                                pattern="^[^0-9]*$"
-                                required
-                              />
-                            </div>
-                          )}
+                          
+                            <div>{(data.country)}</div>
+                          
                         </div>
-                      </div>
-                      <div className="row">
-                        <div>
-                          <label>Description:</label>
+                        <div className="col">
+                          <div>
+                            <label>Language:</label>
+                          </div>
+                         
+                            <div>{(data.language)}</div>
+                          
                         </div>
-                        {
-                          editState !== data.id ? (
-                            <div>{data.description}</div>
-                          ) : (
-                            // <div>
-                            <textarea
-                              rows="4"
-                              name="description"
-                              value={editData.description}
-                              onChange={handleInputChange}
-                              required
-                            />
-                          )
-                          // </div>
-                        }
+                        <div className="col">
+                          <div>
+                            <label>Link:</label>
+                          </div>
+                       
+                            <div>{(data.link)}</div>
+                          
+                        </div>
+                        <div className="col">
+                          <div>
+                            <label>Pages:</label>
+                          </div>
+                         
+                            <div>{(data.pages)}</div>
+                          
+                        </div>
+                        
                       </div>
                       {/* <div className="d-flex"> */}
                       {editState !== data.id ? (
                         <div className="d-flex my-2">
                           <div
                             className="mx-2"
-                           onClick={()=>deleteItem(data.id)}
+                            onClick={() => handleAddBook(data)}
                           >
                             <i
-                              className="bi bi-trash pointer"
-                              style={{ color: "red" }}
+                              class="bi bi-file-earmark-plus pointer"
+                              style={{ color: "green" }}
                             ></i>
                           </div>
                           <div className="mx-2">
@@ -331,7 +334,26 @@ function App() {
             );
           })}
         </div>
-        <div></div>
+        <ReactPaginate
+        previousLabel="Previous"
+        nextLabel="Next"
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        breakLabel="..."
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageClick}
+        containerClassName="pagination"
+        activeClassName="active"
+        forcePage={itemOffset}
+      />
       </div>
     </>
   );
